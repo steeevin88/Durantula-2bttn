@@ -4,6 +4,9 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const { TwoBttnsApi } = require("@2bttns/sdk");
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
 const cors = require("cors");
 app.use(cors());
 
@@ -19,11 +22,27 @@ app.get('/', (req, res) => {
   });
 });
 
-app.get('/generate-game-url', async (req, res) => {
+app.post('/create-user', async (req, res) => {
+  try {
+    const { data } = await twobttns.callApi("/players/create", "post", {
+      "id": req.body.id,
+      "name": req.body.name,
+    });
+    console.log(data)
+    res.send({
+      data
+    })
+  } catch (error) {
+    console.error('Error creating user: ', error);
+    res.status(500).send('Error creating user');
+  }
+})
+
+app.post('/generate-game-url', async (req, res) => {
   try {
     const url = twobttns.generatePlayUrl({
-      gameId: "hobbies-ranker",
-      playerId: "some-player-id",
+      gameId: "book_preferences_game",
+      playerId: req.body.id,
       numItems: 5,
       callbackUrl: "http://localhost:3000/profile",
     });
@@ -35,20 +54,18 @@ app.get('/generate-game-url', async (req, res) => {
 });
 
 app.get('/scores', async (req, res) => {
-
   const { player_id } = req.query
   console.log(player_id)
   try {
     const { data } = await twobttns.callApi("/games/getPlayerScores", "get", {
       player_id: player_id,
-      game_id: "hobbies-ranker",
+      game_id: "book_preferences_game",
       include_game_objects: true
     });
     console.log(data)
     res.send({
       data
     })
-
   } catch (error) {
     console.error('Error retrieving game results:', error);
   }

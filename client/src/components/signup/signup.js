@@ -1,13 +1,21 @@
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 function Signup() {
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const userId = uuidv4();
 
   const getGameUrl = async () => {
     try {
-      const response = await fetch('http://localhost:3001/generate-game-url');
+      const response = await fetch('http://localhost:3001/generate-game-url', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            id: userId,
+        }),
+      });
       const {gameUrl} = await response.json();
       console.log(gameUrl)
       if (gameUrl) {
@@ -20,18 +28,37 @@ function Signup() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords don't match");
-      return;
-    }
-    // Assuming signup logic is successful
-    console.log('Submitting', { username, password });
 
-    // Call getGameUrl to redirect user to their game instance
-    getGameUrl();
+    const data = {
+      id: userId,
+      name: username,
+    };
+  
+    try {
+      const response = await fetch('http://localhost:3001/create-user', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json',},
+        body: JSON.stringify(data),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const responseData = await response.json();
+      console.log('Response:', responseData);
+
+      document.cookie = `userId=${userId}`;
+  
+      // Call getGameUrl to redirect the user to their game instance
+      getGameUrl();
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
+  
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
@@ -40,14 +67,6 @@ function Signup() {
         <div>
           <label>Username:</label>
           <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-        </div>
-        <div>
-          <label>Confirm Password:</label>
-          <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
         </div>
         <button type="submit">Sign Up</button>
       </form>

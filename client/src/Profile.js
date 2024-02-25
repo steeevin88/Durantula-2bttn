@@ -9,6 +9,17 @@ function Profile() {
     navigate(-1); // Goes back one step in the history stack
   };
 
+  function getCookie(cookieName) {
+    const cookies = document.cookie.split(';');
+    for (const cookie of cookies) {
+      const [name, value] = cookie.trim().split('=');
+      if (name === cookieName) {
+        return decodeURIComponent(value);
+      }
+    }
+    return null; // Return null if the cookie is not found
+  }
+
   return (
     <div style={{
       paddingTop: "75px",
@@ -26,7 +37,7 @@ function Profile() {
     }}>
       <h1>Welcome to your profile!</h1>
       <br/>
-      <PlayerScores player_id={"some-player-id"} />
+      <PlayerScores player_id={getCookie('userId')} />
       <button onClick={handleBack}>Go Back</button>
     </div>
   );
