@@ -1,0 +1,57 @@
+/* Apply to the main container */
+.container {
+  background-color: #f8f0f2; /* Adjust the background color as per the screenshot background */
+}
+
+/* Style for the heading */
+h1 {
+  font-size: 2em; /* Adjust the font size as needed */
+  color: #867454; /* Adjust the font color to match the screenshot */
+  margin-bottom: 20px; /* Add some space below the heading */
+  font-weight: bold; /* Adjust the font weight as needed */
+}
+
+/* Style for the form */
+form {
+  width: 300px; /* Set a fixed width or as per your design requirements */
+}
+
+/* Style for form labels */
+label {
+  display: block; /* Make label a block element to match the layout */
+  margin-bottom: 5px; /* Add some space below the label */
+  color: #867454; /* Adjust the label text color as needed */
+  font-size: 20px; /* Adjust the label font size as needed */
+}
+
+/* Style for input fields */
+input[type="text"] {
+  width: 100%; /* Make input field take full width of the form */
+  padding: 10px; /* Add some padding inside the input field */
+  margin-bottom: 10px; /* Add some space below the input field */
+  border: 2px solid #c8c8c8; /* Adjust border color to match the screenshot */
+  border-radius: 5px; /* Round the corners of the input field */
+}
+
+/* Style for the button */
+.buttoncss {
+  background-color: #6c63ff; /* Adjust button background color to match the screenshot */
+  color: white; /* Set the text color to white */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Round the corners of the button */
+  padding: 10px 20px; /* Add padding inside the button */
+  font-size: 1em; /* Adjust the font size as needed */
+  cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+  transition: background-color 0.3s; /* Add a transition for the background color */
+}
+
+/* Change the button background color slightly when hovered for a visual effect */
+button:hover {
+  background-color: #5a52d8; /* Darken the button color on hover */
+}
+
+/* Adding a focus style to the input for accessibility */
+input[type="text"]:focus {
+  outline: none; /* Remove the default focus outline */
+  border-color: #6c63ff; /* Change border color to match the button color */
+}

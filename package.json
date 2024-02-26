@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@2bttns/sdk": "^1.1.0-alpha",
+    "axios": "^1.6.7",
     "chart.js": "^4.4.1",
     "concurrently": "^5.1.0",
     "cors": "^2.8.5",
